@@ -203,26 +203,23 @@ public class Controller extends ControllerBase {
 
           // PJ's optimization
           System.out.println("Check if optimization mode is on");
-          if(OPTIMIZATION_MODE){
-            System.out.println("optimization mode is on");
-            double hour = (double) ((currentTime%288) / 12);
-            log.info("hour is: ",hour);
-            System.out.println("hour is:"+hour);
-            String s = null;
-            String dataStringOpt = "";
-            String dataStringOptT = "";
-            String dataStringOptP = "";
-            String dataStringOptO = "";
-            String dataStringOptS = "";
-            String sblock = null;
-            String sday = null;
-            String separatorOpt = ",";
-            boolean	startSavingE = false;
-            boolean startSavingT = false;
-            boolean startSavingP = false;
-            boolean startSavingO = false;
-            boolean startSavingS = false;
-          }
+          double hour = (double) ((currentTime%288) / 12);
+          log.info("hour is: ",hour);
+          System.out.println("hour is:"+hour);
+          String s = null;
+          String dataStringOpt = "";
+          String dataStringOptT = "";
+          String dataStringOptP = "";
+          String dataStringOptO = "";
+          String dataStringOptS = "";
+          String sblock = null;
+          String sday = null;
+          String separatorOpt = ",";
+          boolean	startSavingE = false;
+          boolean startSavingT = false;
+          boolean startSavingP = false;
+          boolean startSavingO = false;
+          boolean startSavingS = false;
 
           // use the following loop to solve for heating/cooling setpts for each EnergyPlus simulation
           // if you only have one EnergyPlus simulation still use the loop so that it is easy to add more
@@ -371,7 +368,7 @@ public class Controller extends ControllerBase {
             // // Adaptive Setpoint Control 90% comfortable range:
             
             System.out.println("check if Adaptive90 mode on");
-            if (SETPOINT_MODE.equals('Adaptive90')){
+            if (SETPOINT_MODE.equals("Adaptive90")){
               System.out.println("Adaptive90 mode on");
               if (outTemps[i]<=10){
                 heatTemps[i]=18.9;
@@ -388,8 +385,8 @@ public class Controller extends ControllerBase {
 
             // 0.5 degree fuzzy control (this oscillates indoor temp)---------------
             System.out.println("Start fuzzy code");
-            System.out.println("heatTemp before fuZzy:",heatTemps[i]);
-            System.out.println("coolTemp before fuZzy:",coolTemps[i]);
+            System.out.println("heatTemp before fuZzy:"+String.valueOf(heatTemps[i]));
+            System.out.println("coolTemp before fuZzy:"+String.valueOf(coolTemps[i]));
             double max_cool_temp = 30.2; // based on adaptive 90%
             double min_heat_temp = 18.9; // based on adaptive 90%
             double OFFSET = 0.6; // need to change slightly higher/lower so E+ doesnt have issues
