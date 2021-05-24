@@ -427,8 +427,8 @@ public class Controller extends ControllerBase {
             }
             heatTemps[i] = heatTemps[i] + 0.6 +fuzzy_heat*OFFSET;  // +0.6 so that oscillates 0.1-1.1 degree above heating setpoint
             // end fuzzy -------------------------
-            System.out.println("heatTemp after fuzzy:",heatTemps[i]);
-            System.out.println("coolTemp after fuZzy:",coolTemps[i]);
+            System.out.println("heatTemp after fuzzy:"+String.valueOf(heatTemps[i]));
+            System.out.println("coolTemp after fuZzy:"+String.valueOf(coolTemps[i]));
           }
           //-------------------------------------------------------------------------------------------------
 
