@@ -1,0 +1,4 @@
+ip_adress:
+10.16.130.188
+port_number:
+6789
