@@ -46,7 +46,7 @@ temp_indoor_initial = float(sys.argv[3])
 
 # Get data from excel/csv files --------------------------------------------
 # Get outdoor temps
-outdoor_temp_df = pd.read_excel('OutdoorTemp.xlsx', sheet_name='Feb12thru19',header=0)
+outdoor_temp_df = pd.read_excel('../../optimization/OutdoorTemp.xlsx', sheet_name='Feb12thru19',header=0)
 # print(df.head())
 temp_outdoor_all=matrix(outdoor_temp_df.to_numpy())
 outdoor_temp_df.columns = ['column1']
@@ -90,15 +90,15 @@ if OCCUPANCY_MODE == True:
 
 if OCCUPANCY_MODE == True:
 	# get occupancy data
-	occupancy_df = pd.read_csv('occupancy_1hr.csv')
+	occupancy_df = pd.read_csv('../../optimization/occupancy_1hr.csv')
 	occupancy_comfort_range = matrix(occupancy_df['Comfort Range'].to_numpy())
 
 # get solar radiation
-q_solar_all_df = pd.read_excel('Solar.xlsx', sheet_name='Feb12thru19')
+q_solar_all_df = pd.read_excel('../../optimization/Solar.xlsx', sheet_name='Feb12thru19')
 q_solar_all=matrix(q_solar_all_df.to_numpy())
 
 # get wholesale prices
-wholesaleprice_all_df = pd.read_excel('WholesalePrice.xlsx', sheet_name='Feb12thru19')
+wholesaleprice_all_df = pd.read_excel('../../optimization/WholesalePrice.xlsx', sheet_name='Feb12thru19')
 wholesaleprice_all=matrix(wholesaleprice_all_df.to_numpy())
 
 #------------------------------- Done getting data from excel sheets

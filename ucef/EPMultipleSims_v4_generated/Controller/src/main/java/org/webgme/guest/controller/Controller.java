@@ -251,7 +251,7 @@ public class Controller extends ControllerBase {
 
                       // Process p = Runtime.getRuntime().exec("python ./energyOpt.py " +sday +" "+sblock +" "+ String.valueOf(zoneTemps[i])); // 4 hr block method
                       System.out.println("Run python code...");
-                      Process p = Runtime.getRuntime().exec("python3"+PATH_TO_probabilistic_occupancy+"optimization/energyOptTset2hr_kaleb.py " +sday +" " +sblock +" "+ String.valueOf(zoneTemps[i])); // 1 timestep method
+                      Process p = Runtime.getRuntime().exec("python3 "+PATH_TO_probabilistic_occupancy+"optimization/energyOptTset2hr_kaleb.py " +sday +" " +sblock +" "+ String.valueOf(zoneTemps[i])); // 1 timestep method
       
                       BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
                       System.out.println("Here is the result");
