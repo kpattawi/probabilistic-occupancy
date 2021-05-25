@@ -1,2 +1,3 @@
 # probabilistic-occupancy
-implementing probabilistic occupancy-driven comfort band into optimization
+
+Implementing probabilistic occupancy-driven comfort band into optimization of building controls.
