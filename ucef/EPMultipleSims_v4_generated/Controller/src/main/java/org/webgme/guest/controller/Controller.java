@@ -391,24 +391,26 @@ public class Controller extends ControllerBase {
             double OFFSET = 0.6; // need to change slightly higher/lower so E+ doesnt have issues
 
             // Determine minimum and maximum temperatures allowed (we can probably print this from optimization code too)
-            if (outTemps[i]<=10){
-                min_heat_temp =18.9;
-                max_cool_temp =22.9;
-            }else if (outTemps[i]>=33.5){
-                min_heat_temp =26.2;
-                max_cool_temp =30.2;
-            }else {
-                min_heat_temp = 0.31*outTemps[i] + 17.8-2;
-                max_cool_temp = 0.31*outTemps[i] + 17.8+2;
-            }
+            // // TODO:  This only work when we are using the original adaptive setpoints... need some way to prevent going above/below limits
+            // if (outTemps[i]<=10){
+            //     min_heat_temp =18.9;
+            //     max_cool_temp =22.9;
+            // }else if (outTemps[i]>=33.5){
+            //     min_heat_temp =26.2;
+            //     max_cool_temp =30.2;
+            // }else {
+            //     min_heat_temp = 0.31*outTemps[i] + 17.8-2;
+            //     max_cool_temp = 0.31*outTemps[i] + 17.8+2;
+            // }
 
-            // Now set maximum cool and minimum heats:
-            if (coolTemps[i]>=max_cool_temp){
-                coolTemps[i]=max_cool_temp;
-            }
-            if (heatTemps[i]<=min_heat_temp){
-                heatTemps[i]=min_heat_temp;
-            }
+            // // Now set maximum cool and minimum heats:
+            // if (coolTemps[i]>=max_cool_temp){
+            //     coolTemps[i]=max_cool_temp;
+            // }
+            // if (heatTemps[i]<=min_heat_temp){
+            //     heatTemps[i]=min_heat_temp;
+            // }
+            // // End TODO
 
             // For Cooling 1 degree under Cooling setpoint:
             if (zoneTemps[i] >= coolTemps[i]-.1){ // first check if going to exit maximum band
