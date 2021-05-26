@@ -53,7 +53,7 @@ start_date = datetime.datetime(2021,2,12)
 dates = np.array([start_date + datetime.timedelta(hours=i) for i in range(8*24+1)])
 outdoor_temp_df = outdoor_temp_df.set_index(dates)
 outdoor_temp_df = outdoor_temp_df.resample('5min').pad()
-print(outdoor_temp_df.head())
+# print(outdoor_temp_df.head())
 temp_outdoor_all=matrix(outdoor_temp_df.to_numpy())
 outdoor_temp_df.columns = ['column1']
 
