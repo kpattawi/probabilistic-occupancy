@@ -4,7 +4,9 @@ from cvxopt import matrix, solvers
 from cvxopt.modeling import op, dot, variable
 import time
 import pandas as pd
+import numpy as np
 import sys
+import datetime as datetime
 #start_time=time.process_time()
 
 # Parameters for one week long simulation with 2hr horizon --------------------------------------------
@@ -46,8 +48,12 @@ temp_indoor_initial = float(sys.argv[3])
 
 # Get data from excel/csv files --------------------------------------------
 # Get outdoor temps
-outdoor_temp_df = pd.read_excel('../../optimization/OutdoorTemp.xlsx', sheet_name='Feb12thru19',header=0)
-# print(df.head())
+outdoor_temp_df = pd.read_excel('../../optimization/OutdoorTemp.xlsx', sheet_name='Feb12thru19_2021_1hr',header=0)
+start_date = datetime.datetime(2021,2,12)
+dates = np.array([start_date + datetime.timedelta(hours=i) for i in range(8*24+1)])
+outdoor_temp_df = outdoor_temp_df.set_index(dates)
+outdoor_temp_df = outdoor_temp_df.resample('5min').pad()
+print(outdoor_temp_df.head())
 temp_outdoor_all=matrix(outdoor_temp_df.to_numpy())
 outdoor_temp_df.columns = ['column1']
 
@@ -91,6 +97,10 @@ if OCCUPANCY_MODE == True:
 if OCCUPANCY_MODE == True:
 	# get occupancy data
 	occupancy_df = pd.read_csv('../../optimization/occupancy_1hr.csv')
+	occupancy_df = occupancy_df.set_index('Dates/Times')
+	occupancy_df.index = pd.to_datetime(occupancy_df.index)
+	occupancy_df = occupancy_df.resample('5min').pad()
+	# print(occupancy_df.head)
 	occupancy_comfort_range = matrix(occupancy_df['Comfort Range'].to_numpy())
 
 # get solar radiation
