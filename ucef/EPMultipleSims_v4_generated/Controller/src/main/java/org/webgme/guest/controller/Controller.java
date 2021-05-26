@@ -357,7 +357,6 @@ public class Controller extends ControllerBase {
               // I think if we set these as a band 
               heatTemps[i]=Double.parseDouble(futureIndoorTemp[p])-0.5;
               coolTemps[i]=Double.parseDouble(futureIndoorTemp[p])+0.5;
-              coolTemps[i] = 30.2; // do this for now to avoid turning on AC
               System.out.println("coolTemp: "+String.valueOf(coolTemps[i]));
               p=p+1;
               System.out.println("p"+String.valueOf(p));
@@ -427,6 +426,7 @@ public class Controller extends ControllerBase {
             }
             heatTemps[i] = heatTemps[i] + 0.6 +fuzzy_heat*OFFSET;  // +0.6 so that oscillates 0.1-1.1 degree above heating setpoint
             // end fuzzy -------------------------
+            coolTemps[i] = 30.2; // do this for now to avoid turning on AC
             System.out.println("heatTemp after fuzzy:"+String.valueOf(heatTemps[i]));
             System.out.println("coolTemp after fuZzy:"+String.valueOf(coolTemps[i]));
           }
