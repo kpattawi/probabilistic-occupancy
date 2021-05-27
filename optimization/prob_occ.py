@@ -105,12 +105,12 @@ if OCCUPANCY_MODE == True:
 	adaptiveCool = adaptive_cooling_100[(block-1)*12:(block-1)*12+n,0]
 
 
-print('adaptive heating setpoints')
+print('heating setpoint')
 j = 0
 while j<12:
 	print(adaptiveHeat[j,0])
 	j=j+1
-print('adaptive cooling setpoints')
+print('cooling setpoint')
 j = 0
 while j<12:
 	print(adaptiveCool[j,0])
