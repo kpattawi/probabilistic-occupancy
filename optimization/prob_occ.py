@@ -100,9 +100,9 @@ if OCCUPANCY_MODE == True:
 
 if OCCUPANCY_MODE == True:
 	comfort_range = occupancy_comfort_range[(block-1)*12:(block-1)*12+n,0]
-
 	adaptiveHeat = adaptive_heating_100[(block-1)*12:(block-1)*12+n,0]-comfort_range
 	adaptiveCool = adaptive_cooling_100[(block-1)*12:(block-1)*12+n,0]+comfort_range
+
 
 
 print('heating setpoint')

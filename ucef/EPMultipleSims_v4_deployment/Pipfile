@@ -8,6 +8,7 @@ pandas = "*"
 numpy = "*"
 cvxopt = "*"
 xlrd = "==1.2.0"
+openpyxl = "*"
 
 [dev-packages]
 

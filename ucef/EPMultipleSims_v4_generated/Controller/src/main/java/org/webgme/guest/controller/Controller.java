@@ -36,8 +36,8 @@ public class Controller extends ControllerBase {
     // Stuff to add to config
     int numSockets = 1;  // Change this when adding more E+ simulations
     // TODO: Make MODE a bunch of options like how setpoint mode is now
-    boolean OPTIMIZATION_MODE = false;
-    boolean PROB_OCC_NO_OPTIMIZATION_OVERRIDE = true; // OPTIMIZATION_MODE needs to be false!!!!
+    boolean OPTIMIZATION_MODE = true;
+    boolean PROB_OCC_NO_OPTIMIZATION_OVERRIDE = false; // OPTIMIZATION_MODE needs to be false!!!!
     String SETPOINT_MODE = "off"; // can be: "Adaptive90" but optimization mode should be false
     String PATH_TO_probabilistic_occupancy = "/home/kaleb/Desktop/probabilistic-occupancy/";
 
