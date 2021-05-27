@@ -466,14 +466,14 @@ public class Controller extends ControllerBase {
                   e.printStackTrace();
                 }
 
+                String vars[] = dataStringOptHeat.split(separatorOpt);
+                String varsT[] = dataStringOptCool.split(separatorOpt);
+
                 // resetting 
                 startHeat = false;
                 startCool = false;
                 dataStringOptHeat = "";
                 dataStringOptCool = "";
-                String vars[] = dataStringOptHeat.split(separatorOpt);
-                String varsT[] = dataStringOptCool.split(separatorOpt);
-
                 // Take out of try catch
                 
                 System.out.println("set indoorTemps for next hour");
