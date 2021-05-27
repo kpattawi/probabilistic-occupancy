@@ -182,12 +182,12 @@ b = matrix(0.0, (n*2,1))
 if OCCUPANCY_MODE == True:
 	comfort_range = occupancy_comfort_range[(block-1)*12:(block-1)*12+n,0]
 
-	adaptiveHeat = adaptive_heating_100[(block-1)*12:(block-1)*12+n,0]
-	adaptiveCool = adaptive_cooling_100[(block-1)*12:(block-1)*12+n,0]
+	adaptiveHeat = adaptive_heating_100[(block-1)*12:(block-1)*12+n,0]-comfort_range
+	adaptiveCool = adaptive_cooling_100[(block-1)*12:(block-1)*12+n,0]+comfort_range
 	k = 0
 	while k<n:
-		b[2*k,0]=adaptiveCool[k,0]-S[k,0]+comfort_range[k,0]
-		b[2*k+1,0]=-adaptiveHeat[k,0]+S[k,0]-comfort_range[k,0]
+		b[2*k,0]=adaptiveCool[k,0]-S[k,0]
+		b[2*k+1,0]=-adaptiveHeat[k,0]+S[k,0]
 		k=k+1
 else:
 	if SETPOINT_MODE == 'Adaptive90':
