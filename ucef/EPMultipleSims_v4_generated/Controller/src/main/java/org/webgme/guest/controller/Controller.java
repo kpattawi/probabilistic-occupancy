@@ -469,11 +469,7 @@ public class Controller extends ControllerBase {
                 String vars[] = dataStringOptHeat.split(separatorOpt);
                 String varsT[] = dataStringOptCool.split(separatorOpt);
 
-                // resetting 
-                startHeat = false;
-                startCool = false;
-                dataStringOptHeat = "";
-                dataStringOptCool = "";
+                
                 // Take out of try catch
                 
                 System.out.println("set indoorTemps for next hour");
@@ -481,24 +477,30 @@ public class Controller extends ControllerBase {
                   futureHeat[in-1]=vars[in];
                   futureCool[in-1]=varsT[in];
                 }
+                // resetting 
+                startHeat = false;
+                startCool = false;
+                dataStringOptHeat = "";
+                dataStringOptCool = "";
+              }
       
 
-                // Setting setpoint temp for next hour 
-                System.out.println("determine setpoints loop1");
-                if (hour%1 == 0){
-                  p=0;
-                  System.out.println("p"+String.valueOf(p));
-                }
-                // heatTemps[i]=Double.parseDouble(futureIndoorTemp[p]);
-                System.out.println("heatTemp"+String.valueOf(heatTemps[i]));
-                
-                // I think if we set these as a band 
-                heatTemps[i]=Double.parseDouble(futureHeat[p])-0.5;
-                coolTemps[i]=Double.parseDouble(futureCool[p])+0.5;
-                System.out.println("coolTemp: "+String.valueOf(coolTemps[i]));
-                p=p+1;
+              // Setting setpoint temp for next hour 
+              System.out.println("determine setpoints loop1");
+              if (hour%1 == 0){
+                p=0;
                 System.out.println("p"+String.valueOf(p));
               }
+              // heatTemps[i]=Double.parseDouble(futureIndoorTemp[p]);
+              System.out.println("heatTemp"+String.valueOf(heatTemps[i]));
+              
+              // I think if we set these as a band 
+              heatTemps[i]=Double.parseDouble(futureHeat[p])-0.5;
+              coolTemps[i]=Double.parseDouble(futureCool[p])+0.5;
+              System.out.println("coolTemp: "+String.valueOf(coolTemps[i]));
+              p=p+1;
+              System.out.println("p"+String.valueOf(p));
+              
             }
 
             // For Cooling 1 degree under Cooling setpoint:
