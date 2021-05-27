@@ -510,6 +510,7 @@ public class Controller extends ControllerBase {
               System.out.println("heatTemp after fuzzy:"+String.valueOf(heatTemps[i]));
               System.out.println("coolTemp after fuZzy:"+String.valueOf(coolTemps[i]));
             }
+          }
           //-------------------------------------------------------------------------------------------------
 
 
