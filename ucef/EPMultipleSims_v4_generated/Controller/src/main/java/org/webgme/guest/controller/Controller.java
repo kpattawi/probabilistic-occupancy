@@ -35,8 +35,8 @@ public class Controller extends ControllerBase {
     // Kaleb // defining  global variables
     // Stuff to add to config
     int numSockets = 1;  // Change this when adding more E+ simulations
-    boolean OPTIMIZATION_MODE = true;
-    boolean PROB_OCC_NO_OPTIMIZATION_OVERRIDE = true;
+    boolean OPTIMIZATION_MODE = false;
+    boolean PROB_OCC_NO_OPTIMIZATION_OVERRIDE = true; // OPTIMIZATION_MODE needs to be false!!!!
     String SETPOINT_MODE = "off"; // can be: "Adaptive90" but optimization mode should be false
     String PATH_TO_probabilistic_occupancy = "/home/kaleb/Desktop/probabilistic-occupancy/";
 
@@ -466,8 +466,8 @@ public class Controller extends ControllerBase {
                 }
 
                 // resetting 
-                startSavingHeat = false;
-                startSavingCool = false;
+                startHeat = false;
+                startCool = false;
                 dataStringOpt = "";
                 String vars[] = dataStringOptHeat.split(separatorOpt);
                 String varsT[] = dataStringOptCool.split(separatorOpt);
