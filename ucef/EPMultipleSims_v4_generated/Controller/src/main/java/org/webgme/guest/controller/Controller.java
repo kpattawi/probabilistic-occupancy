@@ -448,10 +448,10 @@ public class Controller extends ControllerBase {
                   while ((s = stdInput.readLine()) != null) {
                       System.out.println(s);
                       if (startHeat == true) {
-                          dataStringOptHeat = dataStringOpt + separatorOpt + s;
+                          dataStringOptHeat = dataStringOptHeat + separatorOpt + s;
                       }		
                       if (startCool == true) {
-                          dataStringOptCool = dataStringOptT + separatorOpt + s;
+                          dataStringOptCool = dataStringOptCool + separatorOpt + s;
                       }
                       if (s .equals("heating setpoint")){
                           startHeat = true;
@@ -462,25 +462,30 @@ public class Controller extends ControllerBase {
                       // System.out.println(dataString);
                     }
                 } catch (IOException e) {
-                      e.printStackTrace();
-                  }
-                  String vars[] = dataStringOptHeat.split(separatorOpt);
-                  String varsT[] = dataStringOptCool.split(separatorOpt);
+                  e.printStackTrace();
+                }
 
-                  // Take out of try catch
-                  
-                  System.out.println("set indoorTemps for next hour");
-                  for (int in =1;in<13;in++) {
-                          futureHeat[in-1]=vars[in];
-                          futureCool[in-1]=varsT[in];
-                  }
+                // resetting 
+                startSavingHeat = false;
+                startSavingCool = false;
+                dataStringOpt = "";
+                String vars[] = dataStringOptHeat.split(separatorOpt);
+                String varsT[] = dataStringOptCool.split(separatorOpt);
+
+                // Take out of try catch
+                
+                System.out.println("set indoorTemps for next hour");
+                for (int in =1;in<13;in++) {
+                  futureHeat[in-1]=vars[in];
+                  futureCool[in-1]=varsT[in];
+                }
       
 
                 // Setting setpoint temp for next hour 
                 System.out.println("determine setpoints loop1");
                 if (hour%1 == 0){
-                    p=0;
-                    System.out.println("p"+String.valueOf(p));
+                  p=0;
+                  System.out.println("p"+String.valueOf(p));
                 }
                 // heatTemps[i]=Double.parseDouble(futureIndoorTemp[p]);
                 System.out.println("heatTemp"+String.valueOf(heatTemps[i]));
