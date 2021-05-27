@@ -36,6 +36,7 @@ public class Controller extends ControllerBase {
     // Stuff to add to config
     int numSockets = 1;  // Change this when adding more E+ simulations
     boolean OPTIMIZATION_MODE = true;
+    boolean PROB_OCC_NO_OPTIMIZATION_OVERRIDE = true;
     String SETPOINT_MODE = "off"; // can be: "Adaptive90" but optimization mode should be false
     String PATH_TO_probabilistic_occupancy = "/home/kaleb/Desktop/probabilistic-occupancy/";
 
@@ -62,6 +63,8 @@ public class Controller extends ControllerBase {
     double price = 10; // Set a default price here
     int[] numVars = new int[numSockets];
     String[] futureIndoorTemp = new String[12];
+    String[] futureHeat = new String[12];
+    String[] futureCool = new String[12];
 
     String varNameSeparater = "@";
     String doubleSeparater = ",";
@@ -212,6 +215,8 @@ public class Controller extends ControllerBase {
           String dataStringOptP = "";
           String dataStringOptO = "";
           String dataStringOptS = "";
+          String dataStringOptHeat = "";
+          String dataStringOptCool = "";
           String sblock = null;
           String sday = null;
           String separatorOpt = ",";
@@ -412,26 +417,99 @@ public class Controller extends ControllerBase {
             // }
             // // End TODO
 
-            // For Cooling 1 degree under Cooling setpoint:
-            if (zoneTemps[i] >= coolTemps[i]-.1){ // first check if going to exit maximum band
-                fuzzy_cool = -1;
-            }else if (zoneTemps[i] <= coolTemps[i]-1.1){
-                fuzzy_cool = 1;
-            }
-            coolTemps[i] = coolTemps[i] - 0.6 +fuzzy_cool*OFFSET;   // -0.6 so that oscillates 0.1-1.1 degree under cooling setpoint
+            if( PROB_OCC_NO_OPTIMIZATION_OVERRIDE){
+              System.out.println("start PROBOCCNOOPTOVERRIDE code");
+              if (hour == 0){
+                  day = day+1;
+              }
+              
+              if (hour%1 == 0){
+                try {
+                    sblock= String.valueOf((int)hour);
+                    sday = String.valueOf(day);
+                    dataStringOptHeat = sblock;
+                    dataStringOptCool = sblock;
+                    System.out.println("sblock:" +sblock);
+                    System.out.println("sday:" +sday);
+                    System.out.println("zonetemp string" +String.valueOf(zoneTemps[i]));
 
-            // For Heating 1 degree under Heating setpoint:
-            if (zoneTemps[i] <= heatTemps[i]+.1){ // first check if going to exit minimum band
-                fuzzy_heat = 1;
-            }else if (zoneTemps[i] >= heatTemps[i]+1.1){
-                fuzzy_heat = -1;
+                    // Process p = Runtime.getRuntime().exec("python ./energyOpt.py " +sday +" "+sblock +" "+ String.valueOf(zoneTemps[i])); // 4 hr block method
+                    System.out.println("Run python code...");
+                    Process p = Runtime.getRuntime().exec("python3 "+PATH_TO_probabilistic_occupancy+"optimization/prob_occ.py " +sday +" " +sblock +" "+ String.valueOf(zoneTemps[i])); // 1 timestep method
+    
+                    BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                    System.out.println("Here is the result");
+
+                    // T is indoor Temp, P is price, O is outdoor T, S is solar rad
+            
+                    while ((s = stdInput.readLine()) != null) {
+                        System.out.println(s);
+                        if (startHeat == true) {
+                            dataStringOptHeat = dataStringOpt + separatorOpt + s;
+                        }		
+                        if (startCool == true) {
+                            dataStringOptCool = dataStringOptT + separatorOpt + s;
+                        }
+                        if (s .equals("heating setpoint")){
+                            startHeat = true;
+                        }
+                        if (s .equals("cooling setpoint")){
+                            startCool = true;
+                        }
+                        // System.out.println(dataString);
+                      }
+                  } catch (IOException e) {
+                      e.printStackTrace();
+                  }
+                  String vars[] = dataStringOptHeat.split(separatorOpt);
+                  String varsT[] = dataStringOptCool.split(separatorOpt);
+
+                  // Take out of try catch
+                  
+                  System.out.println("set indoorTemps for next hour");
+                  for (int in =1;in<13;in++) {
+                          futureHeat[in-1]=vars[in];
+                          futureCool[in-1]=varsT[in];
+                  }
+      
+
+                // Setting setpoint temp for next hour 
+                System.out.println("determine setpoints loop1");
+                if (hour%1 == 0){
+                    p=0;
+                    System.out.println("p"+String.valueOf(p));
+                }
+                // heatTemps[i]=Double.parseDouble(futureIndoorTemp[p]);
+                System.out.println("heatTemp"+String.valueOf(heatTemps[i]));
+                
+                // I think if we set these as a band 
+                heatTemps[i]=Double.parseDouble(futureHeat[p])-0.5;
+                coolTemps[i]=Double.parseDouble(futureCool[p])+0.5;
+                System.out.println("coolTemp: "+String.valueOf(coolTemps[i]));
+                p=p+1;
+                System.out.println("p"+String.valueOf(p));
+              }
+
+              // For Cooling 1 degree under Cooling setpoint:
+              if (zoneTemps[i] >= coolTemps[i]-.1){ // first check if going to exit maximum band
+                  fuzzy_cool = -1;
+              }else if (zoneTemps[i] <= coolTemps[i]-1.1){
+                  fuzzy_cool = 1;
+              }
+              coolTemps[i] = coolTemps[i] - 0.6 +fuzzy_cool*OFFSET;   // -0.6 so that oscillates 0.1-1.1 degree under cooling setpoint
+
+              // For Heating 1 degree under Heating setpoint:
+              if (zoneTemps[i] <= heatTemps[i]+.1){ // first check if going to exit minimum band
+                  fuzzy_heat = 1;
+              }else if (zoneTemps[i] >= heatTemps[i]+1.1){
+                  fuzzy_heat = -1;
+              }
+              heatTemps[i] = heatTemps[i] + 0.6 +fuzzy_heat*OFFSET;  // +0.6 so that oscillates 0.1-1.1 degree above heating setpoint
+              // end fuzzy -------------------------
+              coolTemps[i] = 30.2; // do this for now to avoid turning on AC
+              System.out.println("heatTemp after fuzzy:"+String.valueOf(heatTemps[i]));
+              System.out.println("coolTemp after fuZzy:"+String.valueOf(coolTemps[i]));
             }
-            heatTemps[i] = heatTemps[i] + 0.6 +fuzzy_heat*OFFSET;  // +0.6 so that oscillates 0.1-1.1 degree above heating setpoint
-            // end fuzzy -------------------------
-            coolTemps[i] = 30.2; // do this for now to avoid turning on AC
-            System.out.println("heatTemp after fuzzy:"+String.valueOf(heatTemps[i]));
-            System.out.println("coolTemp after fuZzy:"+String.valueOf(coolTemps[i]));
-          }
           //-------------------------------------------------------------------------------------------------
 
 
