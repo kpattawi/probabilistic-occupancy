@@ -209,6 +209,7 @@ public class Controller extends ControllerBase {
           double hour = (double) ((currentTime%288) / 12);
           log.info("hour is: ",hour);
           System.out.println("hour is:"+hour);
+          // TODO: move these so that they arent initialized every iteration
           String s = null;
           String dataStringOpt = "";
           String dataStringOptT = "";
@@ -225,6 +226,8 @@ public class Controller extends ControllerBase {
           boolean startSavingP = false;
           boolean startSavingO = false;
           boolean startSavingS = false;
+          boolean startHeat = false;
+          boolean startCool = false;
 
           // use the following loop to solve for heating/cooling setpts for each EnergyPlus simulation
           // if you only have one EnergyPlus simulation still use the loop so that it is easy to add more
