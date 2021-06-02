@@ -109,6 +109,37 @@ public class Controller extends ControllerBase {
         }
     }
 
+    //TODO:
+    // this may or may not work... need to make fuzzy_heat and fuzzy_cool class variables I think
+    private static double[] fuzzy(double indoor_temperature, double heating_setpoint, double cooling_setpoint){
+      // Takes current indoor temperature and setpoints and returns new setpoints that will oscillate in Energy Plus
+      // For Cooling 1 degree under Cooling setpoint:
+      if (indoor_temperature >= cooling_setpoint-.1){ // first check if going to exit maximum band
+          fuzzy_cool = -1;
+      }else if (indoor_temperature <= cooling_setpoint-1.1){
+          fuzzy_cool = 1;
+      }
+      cooling_setpoint = cooling_setpoint - 0.6 +fuzzy_cool*OFFSET;   // -0.6 so that oscillates 0.1-1.1 degree under cooling setpoint
+
+      // For Heating 1 degree under Heating setpoint:
+      if (indoor_temperature <= heating_setpoint+.1){ // first check if going to exit minimum band
+          fuzzy_heat = 1;
+      }else if (indoor_temperature >= heating_setpoint+1.1){
+          fuzzy_heat = -1;
+      }
+      heating_setpoint = heating_setpoint + 0.6 +fuzzy_heat*OFFSET;  // +0.6 so that oscillates 0.1-1.1 degree above heating setpoint
+      // end fuzzy -------------------------
+    }
+
+    private static double[] adaptive90(double outdoor_temperature){
+      // Takes current outdoor temperature and returns setpoints where 90% of users are comfortable
+
+    }
+
+    private static double[] get_setpoints_from_python(String path_to_file, String hour_of_day, String day, double indoor_temperature){
+      // Takes path, hour of day, day, and current indoor temperature and runs python code to return setpoints
+    }
+
     private void execute() throws Exception {
         if(super.isLateJoiner()) {
             log.info("turning off time regulation (late joiner)");
